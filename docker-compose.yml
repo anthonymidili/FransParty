@@ -1,52 +1,38 @@
+# Docker Compose configuration for production environment
+# To run: docker compose up --build
 services:
+  web:
+    build: .
+    command: bundle exec passenger start
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-production}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      RAILS_LOG_TO_STDOUT: "true"
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+    volumes:
+      - ./config:/rails/config
+      - ./public:/rails/public
+      - ./log:/rails/log
+      - ./tmp:/rails/tmp
+    ports:
+      - "${PORT:-3000}:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   worker:
     build: .
     command: bin/rails solid_queue:start
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-production}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      RAILS_LOG_TO_STDOUT: "true"
     volumes:
-      - .:/rails
-      - bundle_cache:/usr/local/bundle
-    env_file:
-      - .env
+      - ./config:/rails/config
+      - ./log:/rails/log
+      - ./tmp:/rails/tmp
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
-      web:
-        condition: service_started
-
-  web:
-    build: .
-    command: bin/rails server -b 0.0.0.0 -p 3000
-    volumes:
-      - .:/rails
-      - bundle_cache:/usr/local/bundle
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    depends_on:
-      js:
-        condition: service_started
-      css:
-        condition: service_started
-
-  js:
-    build: .
-    command: yarn build --watch
-    volumes:
-      - .:/rails
-      - bundle_cache:/usr/local/bundle
-      - node_modules:/rails/node_modules
-    env_file:
-      - .env
-
-  css:
-    build: .
-    command: yarn watch:css
-    volumes:
-      - .:/rails
-      - bundle_cache:/usr/local/bundle
-      - node_modules:/rails/node_modules
-    env_file:
-      - .env
-
-volumes:
-  bundle_cache:
-  node_modules:
+      - web
