@@ -54,5 +54,9 @@ COPY --from=builder /usr/local/bundle /usr/local/bundle
 # Copy app from builder (includes node_modules and compiled assets)
 COPY --from=builder /rails /rails
 
+# Copy and set up entrypoint script
+COPY docker-entrypoint.sh /rails/docker-entrypoint.sh
+RUN chmod +x /rails/docker-entrypoint.sh
+
 EXPOSE 3000
-CMD ["bundle", "exec", "passenger", "start"]
+CMD ["/rails/docker-entrypoint.sh"]
