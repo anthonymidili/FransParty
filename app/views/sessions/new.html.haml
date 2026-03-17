@@ -1,0 +1,15 @@
+.row.justify-content-center
+  .col-md-4
+    .card.shadow-sm
+      .card-body
+        %h2.card-title.fw-bold.mb-4 Admin Login
+
+        - if alert
+          .alert.alert-danger= alert
+
+        = form_with url: session_path, method: :post do |f|
+          .mb-3
+            = f.label :password, "Password", class: "form-label"
+            = f.password_field :password, class: "form-control", autofocus: true, required: true
+
+          = f.submit "Log In", class: "btn btn-pink w-100"

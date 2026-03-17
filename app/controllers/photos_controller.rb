@@ -1,4 +1,6 @@
 class PhotosController < ApplicationController
+  before_action :require_admin, only: [ :destroy, :purge_image ]
+
   def index
     @photos = Photo.with_attached_images.order(created_at: :desc)
   end
@@ -15,6 +17,14 @@ class PhotosController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def purge_image
+    @photo = Photo.find(params[:id])
+    image = @photo.images.find { |img| img.blob.signed_id == params[:signed_id] }
+    image&.purge_later
+    @photo.destroy if @photo.reload.images.none?
+    redirect_to photos_path, notice: "Photo deleted."
   end
 
   def destroy

@@ -9,12 +9,10 @@ services:
   web:
     build: .
     command: bundle exec passenger start
+    env_file: .env
     environment:
-      RAILS_ENV: development
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
       REDIS_URL: redis://host.docker.internal:6379/0
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
-      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
       LD_PRELOAD: ""
     volumes:
       - .:/app
@@ -30,12 +28,10 @@ services:
   worker:
     build: .
     command: bundle exec sidekiq
+    env_file: .env
     environment:
-      RAILS_ENV: development
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
       REDIS_URL: redis://host.docker.internal:6379/0
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
-      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
       LD_PRELOAD: ""
     volumes:
       - .:/app

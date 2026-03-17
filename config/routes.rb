@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   root "photos#index"
-  resources :photos, only: [ :index, :new, :create, :destroy ]
+  resources :photos, only: [ :index, :new, :create, :destroy ] do
+    member do
+      delete "images/:signed_id", action: :purge_image, as: :purge_image
+    end
+  end
+  resource :session, only: [ :new, :create, :destroy ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

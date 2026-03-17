@@ -14,8 +14,12 @@
             %img.card-img-top.object-fit-cover{src: rails_blob_path(image, disposition: "inline"), style: "height: 220px; cursor: pointer;", "data-bs-toggle": "modal", "data-bs-target": "#photoModal", "data-src": rails_blob_path(image, disposition: "inline")}
             .card-body.p-2.d-flex.align-items-center.justify-content-between
               %p.card-text.small.text-muted.mb-0= photo.caption.present? ? photo.caption : ""
-              = link_to rails_blob_path(image, disposition: "attachment"), class: "btn btn-sm btn-outline-secondary ms-auto" do
-                %i.bi.bi-download
+              .d-flex.gap-1.ms-auto
+                = link_to rails_blob_path(image, disposition: "attachment"), class: "btn btn-sm btn-outline-secondary" do
+                  %i.bi.bi-download
+                - if admin_signed_in?
+                  = link_to purge_image_photo_path(photo, signed_id: image.blob.signed_id), data: { turbo_method: :delete, turbo_confirm: "Delete this photo?" }, class: "btn btn-sm btn-outline-danger" do
+                    %i.bi.bi-trash
 - else
   .text-center.py-5
     %i.bi.bi-images.display-1.text-muted
