@@ -1,15 +1,42 @@
+// Pearl: #F5F0EB  |  Black bows: #1A1A1A  |  Champagne gold: #C9A96E
+
 body {
-  background-color: #fff5fa;
+  background-color: #F5F0EB;
 }
 
-.btn-pink {
-  background-color: #e91e8c;
-  border-color: #e91e8c;
-  color: #fff;
+.navbar-party {
+  background: linear-gradient(135deg, #272727 0%, #3a3a3a 100%);
+  border-bottom: 5px solid #C9A96E;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.55);
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+
+  .navbar-brand {
+    color: #F5F0EB;
+    font-size: 1.5rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 6px rgba(201, 169, 110, 0.4);
+    &:hover {
+      color: #C9A96E;
+      text-decoration: none;
+    }
+  }
+}
+
+.btn-party {
+  background-color: transparent;
+  border: 2px solid #C9A96E;
+  color: #C9A96E;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  transition: background-color 0.2s, color 0.2s;
 
   &:hover {
-    background-color: #c91577;
-    border-color: #c91577;
-    color: #fff;
+    background-color: #C9A96E;
+    border-color: #C9A96E;
+    color: #1A1A1A;
   }
 }

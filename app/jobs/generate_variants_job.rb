@@ -6,8 +6,8 @@ class GenerateVariantsJob < ApplicationJob
     return unless photo
 
     photo.images.each do |image|
-      image.variant(resize_to_limit: [ 1200, 1200 ]).processed
-      image.variant(resize_to_fill: [ 400, 400 ]).processed
+      image.variant(resize_to_limit: [ 1200, 1200 ], format: :jpeg).processed
+      image.variant(resize_to_fill: [ 400, 400 ], format: :jpeg).processed
     end
   end
 end

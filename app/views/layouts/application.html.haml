@@ -16,10 +16,12 @@
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
   %body
-    %nav.navbar.navbar-light.mb-4{style: "background-color: #ffd6ec;"}
+    %nav.navbar.navbar-party.mb-4
       .container
-        = link_to "🎀 Fran's Sweet 16", photos_path, class: "navbar-brand fw-bold fs-4"
-        = link_to "Upload Photos", new_photo_path, class: "btn btn-pink btn-sm"
+        = link_to photos_path, class: "navbar-brand fw-bold" do
+          = image_tag "perl.png", height: 64, alt: "pearl"
+          Fran's Party
+        = link_to "Upload Photos", new_photo_path, class: "btn btn-party btn-sm"
     .container
       = yield
     - if admin_signed_in?
