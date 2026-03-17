@@ -1,20 +1,21 @@
-# Docker Compose configuration for production environment
-# To run: docker compose up --build
+# Docker Compose configuration for Recipedia application
+# To run the application, use: docker-compose up --build
 services:
   web:
     build: .
-    command: bundle exec passenger start
+    command: /app/docker-entrypoint.sh
     environment:
       RAILS_ENV: ${RAILS_ENV:-production}
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+      REDIS_URL: redis://host.docker.internal:6379/0
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       RAILS_LOG_TO_STDOUT: "true"
       RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
     volumes:
-      - ./config:/rails/config
-      - ./public:/rails/public
-      - ./log:/rails/log
-      - ./tmp:/rails/tmp
+      - ./config:/app/config
+      - ./public:/app/public
+      - ./log:/app/log
+      - ./tmp:/app/tmp
     ports:
       - "${PORT:-3000}:3000"
     extra_hosts:
@@ -22,16 +23,17 @@ services:
 
   worker:
     build: .
-    command: bundle exec sidekiq
+    command: bundle exec sidekiq -C config/sidekiq.yml
     environment:
       RAILS_ENV: ${RAILS_ENV:-production}
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+      REDIS_URL: redis://host.docker.internal:6379/0
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       RAILS_LOG_TO_STDOUT: "true"
     volumes:
-      - ./config:/rails/config
-      - ./log:/rails/log
-      - ./tmp:/rails/tmp
+      - ./config:/app/config
+      - ./log:/app/log
+      - ./tmp:/app/tmp
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:

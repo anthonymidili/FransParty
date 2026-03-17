@@ -1,7 +1,10 @@
 # Docker Compose configuration for development environment
 # To run: docker compose -f docker-compose.dev.yml up
 # To stop: docker compose -f docker-compose.dev.yml down
-# To rebuild: docker compose -f docker-compose.dev.yml up --build
+# To rebuild: docker compose -f docker-compose.dev.yml build
+# To completely remove containers, networks, volumes, and images created by up: 
+# docker compose -f docker-compose.dev.yml down --rmi all -v
+# Then: docker builder prune -a -f
 services:
   web:
     build: .
@@ -9,13 +12,14 @@ services:
     environment:
       RAILS_ENV: development
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+      REDIS_URL: redis://host.docker.internal:6379/0
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
       LD_PRELOAD: ""
     volumes:
-      - .:/rails
-      - /rails/node_modules
-      - /rails/tmp
+      - .:/app
+      - /app/node_modules
+      - /app/tmp
     ports:
       - "${PORT:-3000}:3000"
     extra_hosts:
@@ -25,16 +29,18 @@ services:
 
   worker:
     build: .
-    command: bundle exec sidekiq
+    command: bundle exec sidekiq -C config/sidekiq.yml
     environment:
       RAILS_ENV: development
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+      REDIS_URL: redis://host.docker.internal:6379/0
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
       LD_PRELOAD: ""
     volumes:
-      - .:/rails
-      - /rails/node_modules
-      - /rails/tmp
+      - .:/app
+      - /app/node_modules
+      - /app/tmp
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -42,26 +48,30 @@ services:
 
   js:
     build: .
-    command: yarn build --watch
+    command: yarn build:watch
     environment:
       RAILS_ENV: development
       LD_PRELOAD: ""
     volumes:
-      - .:/rails
-      - /rails/node_modules
-      - /rails/tmp
+      - .:/app
+      - /app/node_modules
+      - /app/tmp
     stdin_open: true
     tty: true
+    depends_on:
+      - web
 
   css:
     build: .
-    command: yarn watch:css
+    command: yarn build:css:watch
     environment:
       RAILS_ENV: development
       LD_PRELOAD: ""
     volumes:
-      - .:/rails
-      - /rails/node_modules
-      - /rails/tmp
+      - .:/app
+      - /app/node_modules
+      - /app/tmp
     stdin_open: true
     tty: true
+    depends_on:
+      - web
