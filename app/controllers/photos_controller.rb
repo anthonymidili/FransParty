@@ -10,6 +10,7 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.new(photo_params)
     if @photo.save
+      GenerateVariantsJob.perform_later(@photo.id)
       redirect_to photos_path, notice: "Photos uploaded successfully!"
     else
       render :new, status: :unprocessable_entity

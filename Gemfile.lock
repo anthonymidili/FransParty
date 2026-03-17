@@ -181,6 +181,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
+    hirb (0.7.3)
     html2haml (2.3.0)
       erubis (~> 2.7.0)
       haml (>= 4.0)
@@ -441,6 +442,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   haml-rails (~> 3.0)
+  hirb (~> 0.7)
   html2haml (~> 2.0)
   image_processing (~> 1.2)
   jbuilder
@@ -512,6 +514,7 @@ CHECKSUMS
   globalid (1.3.0) sha256=05c639ad6eb4594522a0b07983022f04aa7254626ab69445a0e493aa3786ff11
   haml (7.2.0) sha256=87fd2b71f7feab1724337b090a7d767f5ab2d42f08c974f3ead673f18cfcd55a
   haml-rails (3.0.0) sha256=091fe496a85ca521d9cac87fb50f1ecf77a57974a99aa7e267130add81a5585f
+  hirb (0.7.3) sha256=5132733ca44b1f41f36c624693a3201284368a349dfe37f543ae6e2ad880ec57
   html2haml (2.3.0) sha256=b587eaf532609642fc3b5c2b35861e8c9e15e72e0355b93bbcfee1e3ae088127
   i18n (1.14.8) sha256=285778639134865c5e0f6269e0b818256017e8cde89993fdfcbfb64d088824a5
   image_processing (1.14.0) sha256=754cc169c9c262980889bec6bfd325ed1dafad34f85242b5a07b60af004742fb

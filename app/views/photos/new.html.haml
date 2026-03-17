@@ -4,11 +4,14 @@
       .card-body
         %h2.card-title.fw-bold.mb-4 Upload Photos
 
-        = form_with model: @photo, class: "needs-validation" do |f|
+        = form_with model: @photo, class: "needs-validation", data: { controller: "upload" } do |f|
           .mb-3
             = f.label :images, "Select Photos", class: "form-label"
-            = f.file_field :images, multiple: true, accept: "image/*", class: "form-control", required: true
-            %div.form-text Select one or more photos to upload.
+            = f.file_field :images, multiple: true, accept: "image/*", class: "form-control", required: true, direct_upload: true, data: { upload_target: "input", action: "change->upload#filesSelected" }
+            %p.form-text.mb-1{data: { upload_target: "status" }} Select one or more photos to upload.
+          .d-none.mb-3{data: { upload_target: "progress" }}
+            .progress
+              .progress-bar.progress-bar-striped.progress-bar-animated{role: "progressbar", style: "width: 0%", "aria-valuenow": "0", "aria-valuemin": "0", "aria-valuemax": "100", data: { upload_target: "progressBar" }}
 
           .mb-3
             = f.label :caption, "Caption (optional)", class: "form-label"
@@ -21,5 +24,5 @@
                   %li= msg
 
           .d-flex.gap-2
-            = f.submit "Upload", class: "btn btn-pink"
+            = f.submit "Upload", class: "btn btn-pink", data: { upload_target: "submitBtn" }
             = link_to "Cancel", photos_path, class: "btn btn-outline-secondary"
