@@ -87,9 +87,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: frans_party_production
-    username: frans_party
-    password: <%= ENV["FRANS_PARTY_DATABASE_PASSWORD"] %>
+    url: <%= ENV['DATABASE_URL'] %>
   cache:
     <<: *primary_production
     database: frans_party_production_cache
