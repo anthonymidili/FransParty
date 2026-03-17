@@ -16,5 +16,9 @@
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
   %body
+    %nav.navbar.navbar-light.mb-4{style: "background-color: #ffd6ec;"}
+      .container
+        = link_to "🎀 Fran's Sweet 16", photos_path, class: "navbar-brand fw-bold fs-4"
+        = link_to "Upload Photos", new_photo_path, class: "btn btn-pink btn-sm"
     .container
       = yield

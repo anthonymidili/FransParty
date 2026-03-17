@@ -1,0 +1,31 @@
+%h1.fw-bold.mb-4 🎉 Fran's Sweet 16 Photos
+
+- if notice
+  .alert.alert-success.alert-dismissible.fade.show
+    = notice
+    %button.btn-close{"data-bs-dismiss" => "alert"}
+
+- if @photos.any?
+  .row.g-3
+    - @photos.each do |photo|
+      - photo.images.each do |image|
+        .col-6.col-md-4.col-lg-3
+          .card.h-100.shadow-sm
+            %img.card-img-top.object-fit-cover{src: rails_blob_path(image, disposition: "inline"), style: "height: 220px; cursor: pointer;", "data-bs-toggle": "modal", "data-bs-target": "#photoModal", "data-src": rails_blob_path(image, disposition: "inline")}
+            .card-body.p-2.d-flex.align-items-center.justify-content-between
+              %p.card-text.small.text-muted.mb-0= photo.caption.present? ? photo.caption : ""
+              = link_to rails_blob_path(image, disposition: "attachment"), class: "btn btn-sm btn-outline-secondary ms-auto" do
+                %i.bi.bi-download
+- else
+  .text-center.py-5
+    %i.bi.bi-images.display-1.text-muted
+    %p.text-muted.mt-3 No photos yet. Be the first to upload!
+
+/ Fullscreen photo modal
+#photoModal.modal.fade{"tabindex" => "-1", "aria-hidden" => "true"}
+  .modal-dialog.modal-fullscreen
+    .modal-content.bg-black
+      .modal-header.border-0
+        %button.btn-close.btn-close-white{"data-bs-dismiss" => "modal", "aria-label" => "Close"}/
+      .modal-body.d-flex.align-items-center.justify-content-center.p-2
+        %img#modalPhoto{src: "", class: "img-fluid", style: "max-height: 90vh; object-fit: contain;"}

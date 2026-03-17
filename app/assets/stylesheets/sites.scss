@@ -1,0 +1,15 @@
+body {
+  background-color: #fff5fa;
+}
+
+.btn-pink {
+  background-color: #e91e8c;
+  border-color: #e91e8c;
+  color: #fff;
+
+  &:hover {
+    background-color: #c91577;
+    border-color: #c91577;
+    color: #fff;
+  }
+}
