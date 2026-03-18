@@ -2,7 +2,10 @@
   .col-md-6
     .card.shadow-sm
       .card-body
-        %h2.card-title.fw-bold.mb-4 Upload Photos
+        %h2.card-title.fw-bold.mb-3 Upload Photos
+        .alert.alert-warning.d-flex.align-items-center.gap-2.mb-4{"role" => "alert"}
+          %i.bi.bi-exclamation-triangle-fill.flex-shrink-0
+          %span Please be respectful — friends and family will be viewing your uploads.
 
         = form_with model: @photo, class: "needs-validation", data: { controller: "upload" } do |f|
           .mb-3
