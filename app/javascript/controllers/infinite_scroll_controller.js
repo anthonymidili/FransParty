@@ -38,8 +38,12 @@ export default class extends Controller {
     if (response.ok) {
       const html = await response.text()
       this.nextPageValue++
+      await Turbo.renderStreamMessage(html)
       this.loading = false
-      Turbo.renderStreamMessage(html)
+      this.sentinelTargets.forEach(target => {
+        this.observer.unobserve(target)
+        this.observer.observe(target)
+      })
     } else {
       this.loading = false
     }
