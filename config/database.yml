@@ -19,7 +19,7 @@ default: &default
 
 development:
   <<: *default
-  database: frans_party_development
+  url: <%= ENV.fetch('DATABASE_URL', 'postgresql://localhost/frans_party_development') %>
 
 test:
   <<: *default

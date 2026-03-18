@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import UploadController from "./upload_controller"
 application.register("upload", UploadController)
+
+import InfiniteScrollController from "./infinite_scroll_controller"
+application.register("infinite-scroll", InfiniteScrollController)

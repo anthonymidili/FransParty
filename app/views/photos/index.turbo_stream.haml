@@ -1,0 +1,6 @@
+= turbo_stream.append "photos-grid", partial: "photos/photos", locals: { images: @images }
+
+- if @has_more
+  = turbo_stream.replace "photos-sentinel", partial: "photos/sentinel"
+- else
+  = turbo_stream.remove "photos-sentinel"

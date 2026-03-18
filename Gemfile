@@ -11,6 +11,7 @@ gem "propshaft"
 gem "pg", "~> 1.1"
 # Use the Passenger web server [https://www.phusionpassenger.com/]
 gem "passenger", require: "phusion_passenger/rack_handler"
+gem "fiddle"
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]

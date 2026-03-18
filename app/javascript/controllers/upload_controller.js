@@ -7,6 +7,7 @@ export default class extends Controller {
     this.uploads = {}
     this.element.addEventListener("direct-upload:initialize", this.#onInitialize)
     this.element.addEventListener("direct-upload:progress", this.#onProgress)
+    this.element.addEventListener("direct-upload:end", this.#onFileEnd)
     this.element.addEventListener("direct-uploads:start", this.#onStart)
     this.element.addEventListener("direct-uploads:end", this.#onEnd)
   }
@@ -14,6 +15,7 @@ export default class extends Controller {
   disconnect() {
     this.element.removeEventListener("direct-upload:initialize", this.#onInitialize)
     this.element.removeEventListener("direct-upload:progress", this.#onProgress)
+    this.element.removeEventListener("direct-upload:end", this.#onFileEnd)
     this.element.removeEventListener("direct-uploads:start", this.#onStart)
     this.element.removeEventListener("direct-uploads:end", this.#onEnd)
   }
@@ -41,11 +43,16 @@ export default class extends Controller {
     this.#updateProgress()
   }
 
+  #onFileEnd = (event) => {
+    this.uploads[event.detail.id] = 100
+    this.#updateProgress()
+  }
+
   #onEnd = () => {
-    this.progressTarget.classList.add("d-none")
-    this.submitBtnTarget.disabled = false
-    this.submitBtnTarget.textContent = "Upload"
-    this.uploads = {}
+    // All files uploaded to storage; form is now being submitted to Rails
+    this.progressBarTarget.style.width = "100%"
+    this.progressBarTarget.setAttribute("aria-valuenow", 100)
+    this.statusTarget.textContent = "Saving..."
   }
 
   #updateProgress() {
