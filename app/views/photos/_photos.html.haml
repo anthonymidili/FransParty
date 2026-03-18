@@ -2,7 +2,8 @@
   - photo = image.record
   .col-6.col-md-4.col-lg-3
     .card.h-100.shadow-sm
-      %img.card-img-top.object-fit-cover{src: rails_representation_path(image.variant(resize_to_fill: [400, 400], format: :jpeg), disposition: "inline"), style: "height: 220px; cursor: pointer;", "data-bs-toggle": "modal", "data-bs-target": "#photoModal", "data-src": rails_representation_path(image.variant(resize_to_limit: [1200, 1200], format: :jpeg), disposition: "inline")}
+      %button.p-0.border-0.bg-transparent.w-100{"data-bs-toggle": "modal", "data-bs-target": "#photoModal", "data-src": rails_representation_path(image.variant(resize_to_limit: [1200, 1200], format: :jpeg), disposition: "inline"), "aria-label": photo.caption.present? ? "View photo: #{photo.caption}" : "View photo"}
+        %img.card-img-top.object-fit-cover{src: rails_representation_path(image.variant(resize_to_fill: [400, 400], format: :jpeg), disposition: "inline"), style: "height: 220px;", alt: photo.caption.present? ? photo.caption : "Photo"}
       .card-body.p-2.d-flex.align-items-center.justify-content-between
         %p.card-text.small.text-muted.mb-0= photo.caption.present? ? photo.caption : ""
         .d-flex.gap-1.ms-auto

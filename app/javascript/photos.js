@@ -4,10 +4,10 @@ document.addEventListener('turbo:load', function () {
 
   // Start fetching the full-size image on hover so it's (partially) cached by click time
   document.addEventListener('pointerover', function (event) {
-    const thumb = event.target.closest('img[data-src]')
-    if (!thumb || thumb._preloaded) return
-    thumb._preloaded = true
-    new Image().src = thumb.dataset.src
+    const btn = event.target.closest('button[data-src]')
+    if (!btn || btn._preloaded) return
+    btn._preloaded = true
+    new Image().src = btn.dataset.src
   })
 
   photoModal.addEventListener('show.bs.modal', function (event) {
@@ -16,7 +16,7 @@ document.addEventListener('turbo:load', function () {
     const modalPhoto = document.getElementById('modalPhoto')
 
     // Show the thumbnail immediately for instant feedback while full-size loads
-    modalPhoto.src = trigger.src
+    modalPhoto.src = trigger.querySelector('img').src
     modalPhoto.dataset.pendingSrc = fullSrc
 
     const full = new Image()
@@ -27,6 +27,13 @@ document.addEventListener('turbo:load', function () {
       }
     }
     full.src = fullSrc
+  })
+
+  // Blur focused elements before Bootstrap sets aria-hidden on the modal
+  photoModal.addEventListener('hide.bs.modal', function () {
+    if (photoModal.contains(document.activeElement)) {
+      document.activeElement.blur()
+    }
   })
 
   photoModal.addEventListener('hidden.bs.modal', function () {
