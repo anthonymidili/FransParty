@@ -1,0 +1,6 @@
+- if admin_signed_in?
+  .position-fixed.bottom-0.start-0.p-3{style: "z-index: 1000;"}
+    = link_to "Log Out", session_path, data: { turbo_method: :delete }, class: "btn btn-sm btn-outline-secondary opacity-50", style: "font-size: 0.7rem;"
+- else
+  .position-fixed.bottom-0.start-0.p-3{style: "z-index: 1000;"}
+    = link_to "!", new_session_path, class: "btn btn-sm btn-outline-secondary opacity-50", style: "font-size: 0.6rem;"
