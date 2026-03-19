@@ -14,7 +14,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.turbo_stream if params[:page].present?
+      format.turbo_stream
     end
   end
 

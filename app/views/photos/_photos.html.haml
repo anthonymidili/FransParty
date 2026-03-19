@@ -1,5 +1,6 @@
 - images.each do |image|
   - photo = image.record
+  - next unless photo
   .col-6.col-md-4.col-lg-3
     .card.h-100.shadow-sm
       %button.p-0.border-0.bg-transparent.w-100{"data-bs-toggle": "modal", "data-bs-target": "#photoModal", "data-src": rails_representation_path(image.variant(resize_to_limit: [1200, 1200], format: :jpeg), disposition: "inline"), "aria-label": photo.caption.present? ? "View photo: #{photo.caption}" : "View photo"}
