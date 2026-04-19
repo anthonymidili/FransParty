@@ -1,5 +1,10 @@
 // Pearl: #F5F0EB  |  Black bows: #1A1A1A  |  Champagne gold: #C9A96E
 
+#photoModal .btn-close {
+  transform: scale(1.6);
+  transform-origin: top right;
+}
+
 body {
   background-color: #F5F0EB;
 }
